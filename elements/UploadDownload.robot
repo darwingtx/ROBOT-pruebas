@@ -10,13 +10,11 @@ ${UPLOAD_FILE_PATH}    C:\\Users\\abela\\Downloads\\${FILE_NAME}
 
 *** Test Cases ***
 Download
-    # Configurar las preferencias de descarga
     Open Browser    ${URL}    chrome    
     
     Sleep  3s
     Execute JavaScript    window.scrollTo(0, document.body.scrollHeight)
 
-    # Hacer clic en el botón de descarga
     Click Element    xpath=//*[@id="downloadButton"]
     
     # Esperar a que el archivo se descargue (máximo 10 segundos)
@@ -30,5 +28,18 @@ Download
     ${file_size}=    Get File Size    ${file_path}
     Should Be True    ${file_size} > 0
         
+    Close Browser
+
+Upload
+
+    Open Browser    ${URL}    chrome   
+    Sleep   3s
+    
+    Execute JavaScript    window.scrollTo(0, 500)
+
+    Choose File    xpath=//*[@id="uploadFile"]    ${UPLOAD_FILE_PATH}
+
+    Element Should Contain    xpath=//*[@id="uploadedFilePath"]   ${FILE_NAME}
+
     Close Browser
 
