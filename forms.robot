@@ -11,12 +11,11 @@ ${lastname}   MyLastName
 ${email}    test@test.com
 ${gender}   1    # Values: 1 (Male), 2 (Female), 3 (Other)
 ${number}   3002001000    # 10 digits
-${birthdate}    28 May 2025
+${birthdate}    10 May 2002
 
-# SUBJECTS?????
+# SUBJECTS
 ${subjects}   Maths    Arts    Social Studies
-
-${hobbies}    1    2    # Chebox with 3 values 1 (Sport), 2 (Reading), 3 (Music)
+@{HOBBIES}         1    2    
 ${picture}    /path/of/picture
 ${currentAddress}   MySadAddress
 ${StateAndCity}   ?   # Double DropDown
@@ -26,37 +25,18 @@ Test Basic Data
     Open Browser To Form
     Remove Adds
 
-    # name
     Type In TextField   firstName   ${firstName}
     Type In TextField   lastName    ${lastname}
-
-    # Email 
     Type In TextField   userEmail   ${email}
-
-    # Gender
     Select Gender
-
-    # Mobile
     Type In TextField   userNumber    ${number}
-
-    # Date of Birth
     Select Date Of Birth
-
     # Subjects
-    #Select Subjects
-
-    # Hobbies
     Select Hobbies
     # Picture
-    # Current Address
     Type In TextField   currentAddress    ${currentAddress}
-
-    # State And City
-
-    # Submit Form 
     Execute JavaScript    document.getElementById('submit').click()
     Sleep    5s
-
     [Teardown]    Close browser
 
 *** Keywords ***
@@ -76,7 +56,8 @@ Select Gender
 Select Date Of Birth
     Scroll Element Into View    id:dateOfBirthInput
     Click Element    id:dateOfBirthInput
-    Press Keys    id:dateOfBirthInput    CTRL+A   BACKSPACE   ${birthdate}${\n}
+    Press Keys    id:dateOfBirthInput    CTRL+A   ${birthdate}    RETURN
+    Sleep   2s
 
 Select Subjects
     FOR    ${subject}    IN    ${subjects}
@@ -86,11 +67,16 @@ Select Subjects
     END
 
 Select Hobbies
-    Scroll Element Into View   xpath://label[@for="hobbies-checkbox-1"]
-    FOR   ${hobbie}   IN    ${hobbies}
-        Click Element   xpath://label[@for="hobbies-checkbox-${hobbie}"]
+    FOR    ${hobbie}    IN    @{HOBBIES}
+        ${locator}=    Set Variable    xpath://label[@for="hobbies-checkbox-${hobbie}"]
+        Wait Until Element Is Visible    ${locator}    timeout=5s
+        Scroll Element Into View    ${locator}
+        Click Element               ${locator}
     END
-    
+
+
+
+
 
 Type In TextField
     [Arguments]   ${id}   ${text}
