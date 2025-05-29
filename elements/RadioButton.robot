@@ -1,6 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    OperatingSystem
+
 
 *** Variables ***
 ${URL}  https://demoqa.com/radio-button
