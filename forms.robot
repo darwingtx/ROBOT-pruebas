@@ -1,5 +1,6 @@
 *** Settings ***
 Library   SeleniumLibrary
+Library    OperatingSystem
 
 *** Variables ***
 ${url}    https://demoqa.com/automation-practice-form
@@ -20,11 +21,13 @@ ${picture}    /path/of/picture
 ${currentAddress}   MySadAddress
 ${StateAndCity}   ?   # Double DropDown
 
+${FILE_PATH}    /home/andres/Desktop/ROBOT-pruebas/robot.png
+${FILE_NAME}    "robot.png"
+
 *** Test Cases ***
 Test Basic Data
     Open Browser To Form
     Remove Adds
-
     Type In TextField   firstName   ${firstName}
     Type In TextField   lastName    ${lastname}
     Type In TextField   userEmail   ${email}
@@ -33,8 +36,9 @@ Test Basic Data
     Select Date Of Birth
     # Subjects
     Select Hobbies
-    # Picture
+    Upload File From Local
     Type In TextField   currentAddress    ${currentAddress}
+    # States and City
     Execute JavaScript    document.getElementById('submit').click()
     Sleep    5s
     [Teardown]    Close browser
@@ -47,7 +51,7 @@ Open Browser To Form
 Remove Adds
     Execute JavaScript    document.querySelectorAll('iframe, .advertisement, #fixedban').forEach(e => e.remove())
     Execute JavaScript    document.getElementById('RightSide_Advertisement').remove()
-    Sleep    1s
+    Sleep   1s
 
 Select Gender
     Scroll Element Into View    xpath://label[@for="gender-radio-${gender}"]
@@ -57,7 +61,6 @@ Select Date Of Birth
     Scroll Element Into View    id:dateOfBirthInput
     Click Element    id:dateOfBirthInput
     Press Keys    id:dateOfBirthInput    CTRL+A   ${birthdate}    RETURN
-    Sleep   2s
 
 Select Subjects
     FOR    ${subject}    IN    ${subjects}
@@ -74,9 +77,9 @@ Select Hobbies
         Click Element               ${locator}
     END
 
-
-
-
+Upload File From Local
+    Execute JavaScript    window.scrollTo(0, 500)
+    Choose File    xpath=//*[@id="uploadPicture"]    ${FILE_PATH} 
 
 Type In TextField
     [Arguments]   ${id}   ${text}
