@@ -1,0 +1,4 @@
+*** Test Cases ***;${username};${password};${isValid};[Documentation]
+Usuario Valido;usuario1;Contra&eña1;true;prueba para verificar usuario valido
+Usuario Invalido;Invalido;Contra&eña1;false;prueba para verificar usuario invalido
+Contrasena Invalida;usuario1;Invalida;false;prueba para verificar contrasena invalida
