@@ -14,32 +14,32 @@ ${gender}   1    # Values: 1 (Male), 2 (Female), 3 (Other)
 ${number}   3002001000    # 10 digits
 ${birthdate}    10 May 2002
 
-# SUBJECTS
-${subjects}   Maths    Arts    Social Studies
-@{HOBBIES}         1    2    
+@{SUBJECTS}         Maths    Arts    Social Studies
+
+@{HOBBIES}         1    2
 ${picture}    /path/of/picture
 ${currentAddress}   MySadAddress
-${StateAndCity}   ?   # Double DropDown
-
-${FILE_PATH}    /home/andres/Desktop/ROBOT-pruebas/robot.png
+${state}   ?   # Double DropDown
+${city}
 ${FILE_NAME}    "robot.png"
+${FILE_PATH}    ${EXECDIR}/forms/${FILE_NAME}
 
 *** Test Cases ***
 Test Basic Data
     Open Browser To Form
-    Remove Adds
+    Remove Shit
     Type In TextField   firstName   ${firstName}
     Type In TextField   lastName    ${lastname}
     Type In TextField   userEmail   ${email}
     Select Gender
     Type In TextField   userNumber    ${number}
     Select Date Of Birth
-    # Subjects
+    Select Subjects
     Select Hobbies
     Upload File From Local
     Type In TextField   currentAddress    ${currentAddress}
-    # States and City
-    Execute JavaScript    document.getElementById('submit').click()
+    Select State And City
+    Submit Form
     Sleep    5s
     [Teardown]    Close browser
 
@@ -48,10 +48,10 @@ Open Browser To Form
     Open Browser    ${url}    ${browser}    options=add_argument("--log-level=3")
     Maximize Browser Window
 
-Remove Adds
+Remove Shit
     Execute JavaScript    document.querySelectorAll('iframe, .advertisement, #fixedban').forEach(e => e.remove())
     Execute JavaScript    document.getElementById('RightSide_Advertisement').remove()
-    Sleep   1s
+    Execute JavaScript    document.querySelectorAll('footer').forEach(e => e.remove())
 
 Select Gender
     Scroll Element Into View    xpath://label[@for="gender-radio-${gender}"]
@@ -63,24 +63,38 @@ Select Date Of Birth
     Press Keys    id:dateOfBirthInput    CTRL+A   ${birthdate}    RETURN
 
 Select Subjects
-    FOR    ${subject}    IN    ${subjects}
+    FOR    ${subject}    IN    @{SUBJECTS}
         Click Element    id:subjectsInput
-        Press Keys    id:subjectsInput    ${subject}   RETURN
-        Sleep            1s
+        Press Keys    id:subjectsInput    ${subject}
+        Mouse Over    id:subjectsInput
+        Click Element   id:react-select-2-option-0
     END
 
 Select Hobbies
     FOR    ${hobbie}    IN    @{HOBBIES}
         ${locator}=    Set Variable    xpath://label[@for="hobbies-checkbox-${hobbie}"]
-        Wait Until Element Is Visible    ${locator}    timeout=5s
         Scroll Element Into View    ${locator}
-        Click Element               ${locator}
+        Wait Until Element Is Visible    ${locator}    timeout=5s
+        Click Element   ${locator}
     END
 
 Upload File From Local
     Execute JavaScript    window.scrollTo(0, 500)
     Choose File    xpath=//*[@id="uploadPicture"]    ${FILE_PATH} 
 
+Select State And City
+    Scroll Element Into View    id:submit
+    Click Element   id:state
+    Click Element    react-select-3-option-1
+
+    Click Element   id:city
+    Click Element   react-select-4-option-0
+
+Submit Form
+    Execute JavaScript    document.getElementById('submit').click()
+    Execute JavaScript    document.getElementById('closeLargeModal').click()
+
 Type In TextField
     [Arguments]   ${id}   ${text}
+    Scroll Element Into View    id:${id}
     Input Text    id:${id}   ${text}

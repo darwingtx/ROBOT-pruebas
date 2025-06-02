@@ -33,4 +33,7 @@ robot /elements/elements.robot
 O de esta manera si no reconoce robot como comando:
 ```
 python -m robot /elements/elements.robot
+
+#### Nota:
+Ejecutar desde el directorio principal
 ```
