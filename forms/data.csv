@@ -1,0 +1,2 @@
+${firstname},${lastName},${email},${gender},${number},${birthdate},${subjects},${hobbies},${picture},${currentAddress},${state},${city}
+Juan,Pérez,juan.perez@example.com,Male,1234567890,01-01-1990,Math,Reading,juan.jpg,Calle 123,Bogotá,Cundinamarca
