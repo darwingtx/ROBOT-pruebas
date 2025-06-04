@@ -31,20 +31,22 @@ Add TABLE_ROW
     Click Element   id=addNewRecordButton
     Sleep   1s
 
-    Input Text    xpath=//input[@id='firstName']    ${FIRST_NAME}
-    Input Text    xpath=//input[@id='lastName']     ${LAST_NAME}
-    Input Text    xpath=//input[@id='userEmail']    ${EMAIL}
-    Input Text    xpath=//input[@id='age']          ${AGE}
-    Input Text    xpath=//input[@id='salary']       ${SALARY}
-    Input Text    xpath=//input[@id='department']   ${DEPARTMENT}
-
-    Click Element    id=submit
+    Input Data
 
     Search  ${EMAIL}
     
     Close Browser
 
+Edit
+
+    Open Browser To Page
+    Click Element   id=edit-record-1
+    Input Data
     
+    Search  ${EMAIL}
+    
+
+
 
 
 *** Keywords ***
@@ -60,6 +62,14 @@ Open Browser To Page
     Open Browser    ${URL}    ${BROWSER}
     Maximize Browser Window
    
+Input Data
+    Input Text    xpath=//input[@id='firstName']    ${FIRST_NAME}
+    Input Text    xpath=//input[@id='lastName']     ${LAST_NAME}
+    Input Text    xpath=//input[@id='userEmail']    ${EMAIL}
+    Input Text    xpath=//input[@id='age']          ${AGE}
+    Input Text    xpath=//input[@id='salary']       ${SALARY}
+    Input Text    xpath=//input[@id='department']   ${DEPARTMENT}
 
+    Click Element    id=submit
 
 
