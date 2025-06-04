@@ -45,7 +45,15 @@ Edit
     
     Search  ${EMAIL}
     
+Delete
 
+    Open Browser To Page
+    Execute JavaScript    window.scrollTo(0, 120)
+    ${primer_nombre}=    Get Text    xpath=(//div[@class='rt-td'])[1]
+    Click Element   xpath=//*[@id="delete-record-1"]
+    Element Should Not Be Visible    xpath=//div[contains(text(),'${primer_nombre}')]
+    
+    Close Browser
 
 
 
