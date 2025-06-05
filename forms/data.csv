@@ -1,2 +1,3 @@
 ${firstname},${lastName},${email},${gender},${number},${birthdate},${subjects},${hobbies},${picture},${currentAddress},${state},${city}
-Juan,Pérez,juan.perez@example.com,Male,1234567890,01-01-1990,Math,Reading,juan.jpg,Calle 123,Bogotá,Cundinamarca
+Juan,Pérez,juan.perez@example.com,1,1234567890,01 may 1990,Math|Arts,1|2|3,${EXECDIR}/forms/robot.png,Calle 123,NCR,Delhi
+Darwin,Hernandez,a@a.com,2,123456789,16 feb 2003,Arts|Accounting,1,${EXECDIR}/forms/robot.png,Afuera de la udea,Haryana,Karnal
